@@ -23,7 +23,7 @@ public class AddTripFrag extends Fragment {
 
         return v;
     }
-    
+
     public void spinnerInit(View v){
         Spinner spinner = (Spinner) v(R.id.trip_or_event_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
