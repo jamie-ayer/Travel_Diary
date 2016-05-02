@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="example.michaelmuccio.com.travel_diary.MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <fragment
         android:id="@+id/user_feed"

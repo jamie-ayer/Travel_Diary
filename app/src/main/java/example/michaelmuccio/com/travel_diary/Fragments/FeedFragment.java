@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import example.michaelmuccio.com.travel_diary.MainActivity;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**

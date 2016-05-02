@@ -1,4 +1,4 @@
-package example.michaelmuccio.com.travel_diary;
+package example.michaelmuccio.com.travel_diary.Activities;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import example.michaelmuccio.com.travel_diary.Fragments.FeedFragment;
+import example.michaelmuccio.com.travel_diary.R;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
