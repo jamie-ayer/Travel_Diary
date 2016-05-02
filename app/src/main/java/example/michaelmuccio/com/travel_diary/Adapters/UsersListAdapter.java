@@ -2,6 +2,7 @@ package example.michaelmuccio.com.travel_diary.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,11 +18,12 @@ import example.michaelmuccio.com.travel_diary.R;
  */
 public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.UsersListViewHolder> {
 
-    private static AdapterView.OnItemClickListener listener;
+    private static OnItemClickListener listener;
     Context context;
     LinkedList linkedList;
 
     public UsersListAdapter() {
+        //empty constructor
     }
 
     public interface OnItemClickListener {
@@ -54,23 +56,51 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
                 }
             });
         }
-
-
     }
 
     @Override
     public UsersListAdapter.UsersListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.users_info_view_for_adapter, parent, false);
+        UsersListViewHolder vh = new UsersListViewHolder(view);
+
+        return vh;
     }
 
     @Override
     public void onBindViewHolder(UsersListAdapter.UsersListViewHolder holder, int position) {
-
+        //TODO time stamp and add pic
+//        long timeStamp = System.currentTimeMillis();
+//        holder.headline.setText(data.get(position).getHeadline().getMain());
+//        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
+//        String agoText = NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp);
+//        if(agoText.isEmpty()) {
+//            holder.ago.setText("published today");
+//        } else {
+//            holder.ago.setText("published " + NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp) + " ago");
+//        }
+//
+//        String imageURI = null;
+//        Multimedia[] multiMedia = data.get(position).getMultimedia();
+//        if(multiMedia != null && multiMedia.length > 0) {
+//            imageURI = multiMedia[0].getUrl();
+//        }
+//        if (imageURI == null) {
+//            imageURI = "R.drawable.nyt_icon";
+//        }
+//
+//        Picasso.with(context)
+//                .load("http://nytimes.com/" + imageURI)
+//                .placeholder(R.drawable.nyt_icon)
+//                .resize(100, 100)
+//                .centerCrop()
+//                .into(holder.imageIcon);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return linkedList.size();
     }
 
 
