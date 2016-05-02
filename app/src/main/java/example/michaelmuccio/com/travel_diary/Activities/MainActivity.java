@@ -1,4 +1,4 @@
-package example.michaelmuccio.com.travel_diary;
+package example.michaelmuccio.com.travel_diary.Activities;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import example.michaelmuccio.com.travel_diary.Fragments.FeedFragment;
+import example.michaelmuccio.com.travel_diary.R;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -18,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
         //noinspection ConstantConditions
-        getSupportActionBar().setTitle("Bottom Navigation");
+//        getSupportActionBar().setTitle("Bottom Navigation");
 
         bottomNavInit();
-        navigationSelected();
+       // navigationSelected();
 
     }
 
@@ -45,30 +46,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void navigationSelected(){
-        final FeedFragment fragment = new FeedFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("color", Color.parseColor(colors[0]));
-        fragment.setArguments(bundle);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.frame, fragment, "square")
-                .commit();
-        //  Enables Reveal effect
-        bottomNavigation.setColored(true);
-
-        bottomNavigation.setCurrentItem(0);
-
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(int position, boolean wasSelected) {
-                // Do something cool here...
-
-                fragment.updateColor(Color.parseColor(colors[position]));
-            }
-        });
-    }
+//    public void navigationSelected(){
+//        final FeedFragment fragment = new FeedFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("color", Color.parseColor(colors[0]));
+//        fragment.setArguments(bundle);
+//
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.frame, fragment, "square")
+//                .commit();
+//        //  Enables Reveal effect
+//        bottomNavigation.setColored(true);
+//
+//        bottomNavigation.setCurrentItem(0);
+//
+//        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(int position, boolean wasSelected) {
+//                // Do something cool here...
+//
+//                fragment.updateColor(Color.parseColor(colors[position]));
+//            }
+//        });
+//    }
 
 
 }

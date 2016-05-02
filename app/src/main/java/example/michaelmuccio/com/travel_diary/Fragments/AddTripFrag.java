@@ -25,9 +25,9 @@ public class AddTripFrag extends Fragment {
     }
 
     public void spinnerInit(View v){
-        Spinner spinner = (Spinner) v(R.id.trip_or_event_spinner);
+        Spinner spinner = (Spinner) v.findViewById(R.id.trip_or_event_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.trip_or_event_array, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
