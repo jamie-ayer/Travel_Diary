@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
+        bottomNavigation.setCurrentItem(1);
 
         item1.setColor(R.color.colorPrimary);
         bottomNavigation.setAccentColor(R.color.colorAccent);
