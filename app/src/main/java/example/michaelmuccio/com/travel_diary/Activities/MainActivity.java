@@ -1,15 +1,23 @@
 package example.michaelmuccio.com.travel_diary.Activities;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import example.michaelmuccio.com.travel_diary.Fragments.AddTripFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.CameraFrag;
