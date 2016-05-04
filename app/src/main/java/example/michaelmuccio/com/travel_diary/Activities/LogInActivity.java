@@ -2,6 +2,7 @@ package example.michaelmuccio.com.travel_diary.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,16 +29,12 @@ import example.michaelmuccio.com.travel_diary.R;
 public class LogInActivity extends AppCompatActivity {
     /* TextView that is used to display information about the logged in user */
     private TextView mLoggedInStatusTextView;
-
     /* A dialog that is presented until the Firebase authentication finished. */
     private ProgressDialog mAuthProgressDialog;
-
     /* A reference to the Firebase */
     private Firebase mFirebaseRef;
-
     /* Data from the authenticated user */
     private AuthData mAuthData;
-
     /* Listener for Firebase session changes */
     private Firebase.AuthStateListener mAuthStateListener;
     /* The login button for Facebook */
@@ -191,12 +188,21 @@ public class LogInActivity extends AppCompatActivity {
             mAuthProgressDialog.hide();
             Log.i(TAG, provider + " auth successful");
             setAuthenticatedUser(authData);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("provider", authData.getProvider());
+            if(authData.getProviderData().containsKey("displayName")) {
+                map.put("displayName", authData.getProviderData().get("displayName").toString());
+            }
+            mFirebaseRef.child("users").child(authData.getUid()).setValue(map);
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(intent);
         }
 
         @Override
         public void onAuthenticationError(FirebaseError firebaseError) {
             mAuthProgressDialog.hide();
             showErrorDialog(firebaseError.toString());
+
         }
     }
 
