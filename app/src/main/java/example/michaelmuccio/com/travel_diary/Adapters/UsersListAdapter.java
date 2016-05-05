@@ -35,10 +35,10 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     }
 
     public class UsersListViewHolder extends RecyclerView.ViewHolder{
-        private TextView userName;
-        private TextView timeStamp;
-        private TextView tripBlurp;
-        private ImageView tripIcon;
+        TextView userName;
+        TextView timeStamp;
+        TextView tripBlurp;
+        ImageView tripIcon;
 
         public UsersListViewHolder(final View itemView){
             super(itemView);

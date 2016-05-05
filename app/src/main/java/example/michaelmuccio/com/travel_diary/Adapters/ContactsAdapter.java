@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ import example.michaelmuccio.com.travel_diary.R;
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsListViewHolder> {
     private static OnItemClickListener listener;
     Context context;
-    LinkedList list;
+    ArrayList list;
 
     public ContactsAdapter() {
 
@@ -37,9 +38,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     }
 
     public class ContactsListViewHolder extends RecyclerView.ViewHolder{
-        private TextView userName;
-        private ImageView profilePic;
-        private ImageButton addContactButton;
+        TextView userName;
+        ImageView profilePic;
+        ImageButton addContactButton;
 
         public ContactsListViewHolder(View itemView) {
             super(itemView);
