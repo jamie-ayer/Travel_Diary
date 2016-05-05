@@ -2,6 +2,7 @@ package example.michaelmuccio.com.travel_diary.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,25 +27,13 @@ import java.util.Map;
 import example.michaelmuccio.com.travel_diary.R;
 
 public class LogInActivity extends AppCompatActivity {
-    /* TextView that is used to display information about the logged in user */
-    private TextView mLoggedInStatusTextView;
 
-    /* A dialog that is presented until the Firebase authentication finished. */
     private ProgressDialog mAuthProgressDialog;
-
-    /* A reference to the Firebase */
     private Firebase mFirebaseRef;
-
-    /* Data from the authenticated user */
     private AuthData mAuthData;
-
-    /* Listener for Firebase session changes */
     private Firebase.AuthStateListener mAuthStateListener;
-    /* The login button for Facebook */
     private LoginButton mFacebookLoginButton;
-    /* The callback manager for Facebook */
     private CallbackManager mFacebookCallbackManager;
-    /* Used to track user logging in/out off Facebook */
     private AccessTokenTracker mFacebookAccessTokenTracker;
     private static final String TAG = LogInActivity.class.getSimpleName();
 
@@ -53,6 +42,13 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        setFacebookManager();
+        mFirebaseRef = new Firebase("https://glowing-torch-6078.firebaseio.com");
+        setauthProgressDialog();
+
+    }
+
+    private void setFacebookManager(){
         mFacebookCallbackManager = CallbackManager.Factory.create();
         mFacebookLoginButton = (LoginButton) findViewById(R.id.login_with_facebook);
         mFacebookAccessTokenTracker = new AccessTokenTracker() {
@@ -62,13 +58,9 @@ public class LogInActivity extends AppCompatActivity {
                 LogInActivity.this.onFacebookAccessTokenChange(currentAccessToken);
             }
         };
+    }
 
-        mLoggedInStatusTextView = (TextView) findViewById(R.id.login_status);
-
-        /* Create the Firebase ref that is used for all authentication with Firebase */
-        mFirebaseRef = new Firebase("https://glowing-torch-6078.firebaseio.com/");
-
-        /* Setup the progress dialog that is displayed later when authenticating with Firebase */
+    private void setauthProgressDialog(){
         mAuthProgressDialog = new ProgressDialog(this);
         mAuthProgressDialog.setTitle("Loading");
         mAuthProgressDialog.setMessage("Authenticating with Firebase...");
@@ -82,8 +74,6 @@ public class LogInActivity extends AppCompatActivity {
                 setAuthenticatedUser(authData);
             }
         };
-        /* Check if the user is authenticated with Firebase already. If this is the case we can set the authenticated
-         * user and hide hide any login buttons */
         mFirebaseRef.addAuthStateListener(mAuthStateListener);
     }
 
@@ -102,7 +92,6 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Map<String, String> options = new HashMap<String, String>();
         mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -125,41 +114,16 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     /**
-     * This method will attempt to authenticate a user to firebase given an oauth_token (and other
-     * necessary parameters depending on the provider)
-     */
-    private void authWithFirebase(final String provider, Map<String, String> options) {
-        if (options.containsKey("error"))
-            showErrorDialog(options.get("error"));
-    }
-
-    /**
      * Once a user is logged in, take the mAuthData provided from Firebase and "use" it.
      */
     private void setAuthenticatedUser(AuthData authData) {
         if (authData != null) {
             /* Hide all the login buttons */
             mFacebookLoginButton.setVisibility(View.GONE);
-            mLoggedInStatusTextView.setVisibility(View.VISIBLE);
-            /* show a provider specific status text */
-            String name = null;
-            if (authData.getProvider().equals("facebook")
-                    || authData.getProvider().equals("google")
-                    || authData.getProvider().equals("twitter")) {
-                name = (String) authData.getProviderData().get("displayName");
-            } else if (authData.getProvider().equals("anonymous")
-                    || authData.getProvider().equals("password")) {
-                name = authData.getUid();
-            } else {
-                Log.e(TAG, "Invalid provider: " + authData.getProvider());
-            }
-            if (name != null) {
-                mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
-            }
+            String  name = (String) authData.getProviderData().get("displayName");
         } else {
             /* No authenticated user show all the login buttons */
             mFacebookLoginButton.setVisibility(View.VISIBLE);
-            mLoggedInStatusTextView.setVisibility(View.GONE);
         }
         this.mAuthData = authData;
         /* invalidate options menu to hide/show the logout button */
@@ -191,12 +155,21 @@ public class LogInActivity extends AppCompatActivity {
             mAuthProgressDialog.hide();
             Log.i(TAG, provider + " auth successful");
             setAuthenticatedUser(authData);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("provider", authData.getProvider());
+            if(authData.getProviderData().containsKey("displayName")) {
+                map.put("displayName", authData.getProviderData().get("displayName").toString());
+            }
+            mFirebaseRef.child("users").child(authData.getUid()).setValue(map);
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(intent);
         }
 
         @Override
         public void onAuthenticationError(FirebaseError firebaseError) {
             mAuthProgressDialog.hide();
             showErrorDialog(firebaseError.toString());
+
         }
     }
 
