@@ -11,7 +11,7 @@
 
     <EditText
         android:id="@+id/add_location"
-        android:hint="add a title"
+        android:hint="add a Location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Spinner
@@ -22,7 +22,7 @@
 
     <EditText
         android:id="@+id/add_details"
-        android:hint="add a title"
+        android:hint="add a Description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import example.michaelmuccio.com.travel_diary.R;
@@ -15,11 +16,18 @@ import example.michaelmuccio.com.travel_diary.R;
  * Created by michaelmuccio on 4/30/16.
  */
 public class AddTripFrag extends Fragment {
+    EditText titleView;
+    EditText locationView;
+    EditText descriptionview;
+    Spinner addTripOrEvent;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.add_event_layout, container, false);
+        setViews(v);
+        spinnerInit(v);
+
 
         return v;
     }
@@ -33,5 +41,11 @@ public class AddTripFrag extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+    }
+
+    private void setViews(View v){
+        titleView = (EditText) v.findViewById(R.id.add_title);
+        locationView = (EditText) v.findViewById(R.id.add_location);
+        descriptionview = (EditText) v.findViewById(R.id.add_details);
     }
 }

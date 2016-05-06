@@ -1,26 +1,14 @@
 package example.michaelmuccio.com.travel_diary.Activities;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import example.michaelmuccio.com.travel_diary.Fragments.AddTripFrag;
-import example.michaelmuccio.com.travel_diary.Fragments.CameraFrag;
+import example.michaelmuccio.com.travel_diary.Fragments.ContactsFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.FeedFragment;
 import example.michaelmuccio.com.travel_diary.R;
 
@@ -32,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     AHBottomNavigationItem item3;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         item1 = new AHBottomNavigationItem("Home", R.drawable.ic_home_black_24dp);
-        item2 = new AHBottomNavigationItem("Camera", R.drawable.ic_camera_alt_black_24dp);
+        item2 = new AHBottomNavigationItem("Add Trip", R.drawable.ic_adjust_black_24dp);
         item3 = new AHBottomNavigationItem("Following", R.drawable.ic_person_black_24dp);
 
         bottomNavigation.addItem(item1);
@@ -67,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(int position, boolean wasSelected) {
                 // Do something cool here..
                 AddTripFrag addTripFrag = new AddTripFrag();
-                CameraFrag cameraFrag = new CameraFrag();
+                ContactsFrag contactsFrag = new ContactsFrag();
                 FeedFragment feedFragment =  new FeedFragment();
                 fragmentManager =  getSupportFragmentManager();
 
@@ -80,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1:
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frag_container, cameraFrag);
+                        fragmentTransaction.replace(R.id.frag_container, addTripFrag);
                         fragmentTransaction.commit();
                         //toolbar.setTitle("Add a Trip!");
                         break;
                     case 2:
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frag_container, addTripFrag);
+                        fragmentTransaction.replace(R.id.frag_container, contactsFrag);
                         fragmentTransaction.commit();
                        // toolbar.setTitle("Following");
                         break;
@@ -94,7 +81,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
 
