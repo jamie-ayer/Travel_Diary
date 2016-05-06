@@ -20,11 +20,12 @@ public class ContactsFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.user_lists_frag, container, false);
-
+        setViews(v);
         return v;
     }
 
     public void setViews(View v){
 
+        recyclerView = (RecyclerView) v.findViewById(R.id.user_list_view);
     }
 }
