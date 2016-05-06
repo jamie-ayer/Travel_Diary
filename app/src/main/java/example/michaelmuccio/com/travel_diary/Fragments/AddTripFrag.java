@@ -7,10 +7,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import example.michaelmuccio.com.travel_diary.BuildFireBaseManager.BuildFireBase;
+import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
@@ -34,25 +44,24 @@ public class AddTripFrag extends Fragment {
         return v;
     }
 
-    private void fabButtunOnClickListener(){
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-    }
-
     public void spinnerInit(View v){
-        Spinner spinner = (Spinner) v.findViewById(R.id.trip_or_event_spinner);
+        addTripOrEvent = (Spinner) v.findViewById(R.id.trip_or_event_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.trip_or_event_array, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        addTripOrEvent.setAdapter(adapter);
+    }
+
+    private void spinnerListener(){
+        addTripOrEvent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     private void setViews(View v){
@@ -61,4 +70,40 @@ public class AddTripFrag extends Fragment {
         descriptionview = (EditText) v.findViewById(R.id.add_details);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
     }
+
+    private void fabButtunOnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
+                Firebase userRef = ref.child("users").child("trip");
+                Trip addTrip = new Trip();
+                addTrip.setTitle(titleView.getText().toString());
+//                Firebase alanRef = usersRef.child("alanisawesome");
+//                Map<String, Object> nickname = new HashMap<String, Object>();
+//                nickname.put("nickname", "Alan The Machine");
+//                alanRef.updateChildren(nickname);
+
+                Map<String, Object> newTrip = new HashMap<>();
+                newTrip.put("title", addTrip.getTitle());
+                newTrip.put("pic", addTrip.getPic());
+                userRef.updateChildren(newTrip);
+
+                ref.setValue("I'm writing data", new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        if (firebaseError != null) {
+                            System.out.println("Data could not be saved. " + firebaseError.getMessage());
+                        } else {
+                            Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
+            }
+        });
+
+    }
+
 }

@@ -8,7 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
+
 import example.michaelmuccio.com.travel_diary.Adapters.UsersListAdapter;
+import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
@@ -18,6 +28,7 @@ public class FeedFragment extends Fragment {
 
     RecyclerView recyclerView;
     UsersListAdapter usersListAdapter;
+    ArrayList<Trip> tripsList;
 
     @Nullable
     @Override
@@ -26,10 +37,27 @@ public class FeedFragment extends Fragment {
         setRetainInstance(true);
         setViews(v);
 
-        usersListAdapter = new UsersListAdapter();
+        retrieveFirebaseData();
+        usersListAdapter = new UsersListAdapter(tripsList);
 
 
         return v;
+    }
+
+    private static void retrieveFirebaseData(){
+        // Get a reference to our posts
+        Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/users/facebook%3A10102387362009255/");
+        Query queryRef = ref.orderByChild("trips");
+
+//        queryRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot snapshot, String previousChild) {
+//                Trip trip = snapshot.getValue(Trip.class);
+//                trip.getTitle();
+//                trip.getPic();
+//            }
+//            // ....
+//        });
     }
 
     public void setViews(View v){

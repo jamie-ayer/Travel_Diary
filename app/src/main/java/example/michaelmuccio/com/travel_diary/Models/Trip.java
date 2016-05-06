@@ -8,6 +8,9 @@ public class Trip {
     String title;
     int pic;
 
+    public Trip() {
+    }
+
     public Event[] getEvents() {
         return events;
     }

@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
+import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
@@ -20,10 +20,10 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
 
     private static OnItemClickListener listener;
     Context context;
-    LinkedList linkedList;
+    ArrayList<Trip> data;
 
-    public UsersListAdapter() {
-        //empty constructor
+    public UsersListAdapter(ArrayList<Trip> data) {
+        this.data = data;
     }
 
     public interface OnItemClickListener {
@@ -35,7 +35,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     }
 
     public class UsersListViewHolder extends RecyclerView.ViewHolder{
-        TextView userName;
+        TextView tripTitle;
         TextView timeStamp;
         TextView tripBlurp;
         ImageView tripIcon;
@@ -43,7 +43,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
         public UsersListViewHolder(final View itemView){
             super(itemView);
 
-            userName = (TextView) itemView.findViewById(R.id.user_name);
+            tripTitle = (TextView) itemView.findViewById(R.id.user_title);
             timeStamp = (TextView) itemView.findViewById(R.id.time_stamp);
             tripBlurp = (TextView) itemView.findViewById(R.id.trip_info_cardview);
             tripIcon = (ImageView) itemView.findViewById(R.id.users_latest_travel_pic);
@@ -71,15 +71,14 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     @Override
     public void onBindViewHolder(UsersListAdapter.UsersListViewHolder holder, int position) {
         //TODO time stamp and add pic
-
-//        long timeStamp = System.currentTimeMillis();
-//        holder.headline.setText(data.get(position).getHeadline().getMain());
-//        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
-//        String agoText = NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp);
-//        if(agoText.isEmpty()) {
-//            holder.ago.setText("published today");
+        holder.tripTitle.setText(data.get(position).getTitle());
+        //holder.tripIcon.getText(data.get(position).getPic());
+//       long timeStamp = System.currentTimeMillis();
+//       String agoText = UsersListAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp);
+//       if(agoText.isEmpty()) {
+//           holder.ago.setText("published today");
 //        } else {
-//            holder.ago.setText("published " + NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp) + " ago");
+//            holder.ago.setText("published " + UsersListAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp) + " ago");
 //        }
 //
 //        String imageURI = null;
@@ -101,7 +100,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
 
     @Override
     public int getItemCount() {
-        return linkedList.size();
+        return data.size();
     }
 
 
