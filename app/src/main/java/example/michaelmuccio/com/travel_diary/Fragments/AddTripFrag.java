@@ -2,6 +2,7 @@ package example.michaelmuccio.com.travel_diary.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class AddTripFrag extends Fragment {
     EditText locationView;
     EditText descriptionview;
     Spinner addTripOrEvent;
+    FloatingActionButton fab;
 
     @Nullable
     @Override
@@ -27,9 +29,19 @@ public class AddTripFrag extends Fragment {
         View v = inflater.inflate(R.layout.add_event_layout, container, false);
         setViews(v);
         spinnerInit(v);
-
+        fabButtunOnClickListener();
 
         return v;
+    }
+
+    private void fabButtunOnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     public void spinnerInit(View v){
@@ -47,5 +59,6 @@ public class AddTripFrag extends Fragment {
         titleView = (EditText) v.findViewById(R.id.add_title);
         locationView = (EditText) v.findViewById(R.id.add_location);
         descriptionview = (EditText) v.findViewById(R.id.add_details);
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
     }
 }
