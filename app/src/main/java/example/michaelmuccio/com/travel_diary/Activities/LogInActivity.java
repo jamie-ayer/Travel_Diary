@@ -121,6 +121,9 @@ public class LogInActivity extends AppCompatActivity {
             /* Hide all the login buttons */
             mFacebookLoginButton.setVisibility(View.GONE);
             String  name = (String) authData.getProviderData().get("displayName");
+            //TODO set toolbar to name
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            startActivity(intent);
         } else {
             /* No authenticated user show all the login buttons */
             mFacebookLoginButton.setVisibility(View.VISIBLE);
@@ -162,6 +165,7 @@ public class LogInActivity extends AppCompatActivity {
             }
             mFirebaseRef.child("users").child(authData.getUid()).setValue(map);
             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            intent.putExtra("Mike", authData.getUid());
             startActivity(intent);
         }
 

@@ -1,4 +1,4 @@
-package example.michaelmuccio.com.travel_diary.Provider;
+package example.michaelmuccio.com.travel_diary.APIServices;
 
 import android.app.Application;
 

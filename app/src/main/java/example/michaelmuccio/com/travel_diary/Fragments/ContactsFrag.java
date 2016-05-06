@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import example.michaelmuccio.com.travel_diary.Adapters.ContactsAdapter;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
@@ -15,12 +18,15 @@ import example.michaelmuccio.com.travel_diary.R;
  */
 public class ContactsFrag extends Fragment {
     RecyclerView recyclerView;
+    ContactsAdapter contactsAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.user_lists_frag, container, false);
         setViews(v);
+        contactsAdapter = new ContactsAdapter();
+
         return v;
     }
 

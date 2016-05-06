@@ -3,16 +3,16 @@ package example.michaelmuccio.com.travel_diary.Models;
 /**
  * Created by michaelmuccio on 5/5/16.
  */
-public class Trips {
-    Events[] events;
+public class Trip {
+    Event[] events;
     String title;
     int pic;
 
-    public Events[] getEvents() {
+    public Event[] getEvents() {
         return events;
     }
 
-    public void setEvents(Events[] events) {
+    public void setEvents(Event[] events) {
         this.events = events;
     }
 

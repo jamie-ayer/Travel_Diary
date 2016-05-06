@@ -1,5 +1,6 @@
 package example.michaelmuccio.com.travel_diary.Activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +8,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.firebase.client.Firebase;
+
+import example.michaelmuccio.com.travel_diary.BuildFireBaseManager.BuildFireBase;
 import example.michaelmuccio.com.travel_diary.Fragments.AddTripFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.ContactsFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.FeedFragment;
+import example.michaelmuccio.com.travel_diary.Models.Users;
 import example.michaelmuccio.com.travel_diary.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,12 +26,27 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+    AddTripFrag addTripFrag = new AddTripFrag();
+    ContactsFrag contactsFrag = new ContactsFrag();
+    FeedFragment feedFragment =  new FeedFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavInit();
         navigationSelected();
+        //firebaseSetup();
+
+    }
+
+    public void firebaseSetup(){
+        Intent intent = getIntent();
+        String uId = intent.getStringExtra("Mike");
+        Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
+        Firebase mikeRef = ref.child("users").child(uId).child("trip");
+        mikeRef.setValue(BuildFireBase.getTrips());
+
     }
 
     public void bottomNavInit() {
@@ -42,10 +62,16 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setCurrentItem(1);
 
         item1.setColor(R.color.colorPrimary);
+        item2.setColor(R.color.colorPrimary);
+        item3.setColor(R.color.colorPrimary);
         bottomNavigation.setAccentColor(R.color.colorAccent);
         bottomNavigation.setInactiveColor(R.color.colorPrimaryDark);
         bottomNavigation.setColored(true);
 
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frag_container,feedFragment);
+        fragmentTransaction.commit();
     }
 
     public void navigationSelected() {
@@ -53,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(int position, boolean wasSelected) {
                 // Do something cool here..
-                AddTripFrag addTripFrag = new AddTripFrag();
-                ContactsFrag contactsFrag = new ContactsFrag();
-                FeedFragment feedFragment =  new FeedFragment();
                 fragmentManager =  getSupportFragmentManager();
 
                 switch (position) {
@@ -81,5 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 

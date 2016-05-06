@@ -71,6 +71,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     @Override
     public void onBindViewHolder(UsersListAdapter.UsersListViewHolder holder, int position) {
         //TODO time stamp and add pic
+
 //        long timeStamp = System.currentTimeMillis();
 //        holder.headline.setText(data.get(position).getHeadline().getMain());
 //        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
