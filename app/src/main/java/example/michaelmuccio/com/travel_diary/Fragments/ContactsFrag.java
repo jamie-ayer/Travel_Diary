@@ -19,6 +19,7 @@ import example.michaelmuccio.com.travel_diary.R;
 public class ContactsFrag extends Fragment {
     RecyclerView recyclerView;
     ContactsAdapter contactsAdapter;
+    String user;
 
     @Nullable
     @Override
@@ -33,5 +34,9 @@ public class ContactsFrag extends Fragment {
     public void setViews(View v){
 
         recyclerView = (RecyclerView) v.findViewById(R.id.user_list_view);
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

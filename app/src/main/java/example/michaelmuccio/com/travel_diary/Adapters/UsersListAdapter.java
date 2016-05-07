@@ -71,7 +71,8 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     @Override
     public void onBindViewHolder(UsersListAdapter.UsersListViewHolder holder, int position) {
         //TODO time stamp and add pic
-        holder.tripTitle.setText(data.get(position).getTitle());
+        holder.tripTitle.getText();
+        holder.tripIcon.getDrawable();
         //holder.tripIcon.getText(data.get(position).getPic());
 //       long timeStamp = System.currentTimeMillis();
 //       String agoText = UsersListAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp);

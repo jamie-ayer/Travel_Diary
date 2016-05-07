@@ -36,6 +36,7 @@ public class LogInActivity extends AppCompatActivity {
     private CallbackManager mFacebookCallbackManager;
     private AccessTokenTracker mFacebookAccessTokenTracker;
     private static final String TAG = LogInActivity.class.getSimpleName();
+    public static final String USER_ID_TAG = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,7 @@ public class LogInActivity extends AppCompatActivity {
             String  name = (String) authData.getProviderData().get("displayName");
             //TODO set toolbar to name
             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            intent.putExtra(USER_ID_TAG, authData.getUid());
             startActivity(intent);
         } else {
             /* No authenticated user show all the login buttons */
@@ -158,14 +160,14 @@ public class LogInActivity extends AppCompatActivity {
             mAuthProgressDialog.hide();
             Log.i(TAG, provider + " auth successful");
             setAuthenticatedUser(authData);
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("provider", authData.getProvider());
-            if(authData.getProviderData().containsKey("displayName")) {
-                map.put("displayName", authData.getProviderData().get("displayName").toString());
-            }
-            mFirebaseRef.child("users").child(authData.getUid()).setValue(map);
+//            Map<String, String> map = new HashMap<String, String>();
+//            map.put("provider", authData.getProvider());
+//            if(authData.getProviderData().containsKey("displayName")) {
+//                map.put("displayName", authData.getProviderData().get("displayName").toString());
+//            }
+//            mFirebaseRef.child("users").child(authData.getUid());
             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-            intent.putExtra("Mike", authData.getUid());
+            intent.putExtra(USER_ID_TAG, authData.getUid());
             startActivity(intent);
         }
 

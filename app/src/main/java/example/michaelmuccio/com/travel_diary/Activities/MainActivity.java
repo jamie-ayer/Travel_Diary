@@ -38,11 +38,28 @@ public class MainActivity extends AppCompatActivity {
         navigationSelected();
         //firebaseSetup();
 
+        Intent intent = getIntent();
+        String uId = intent.getStringExtra(LogInActivity.USER_ID_TAG);
+
+        AddTripFrag articleFrag = (AddTripFrag)
+                getSupportFragmentManager().findFragmentById(R.id.frag_container);
+        articleFrag.setUser(uId);
+
+        FeedFragment feedFragment = (FeedFragment)
+                getSupportFragmentManager().findFragmentById(R.id.frag_container);
+        feedFragment.setUser(uId);
+
+        ContactsFrag contactsFrag = (ContactsFrag)
+                getSupportFragmentManager().findFragmentById(R.id.frag_container);
+        contactsFrag.setUser(uId);
+
     }
+
+
 
     public void firebaseSetup(){
         Intent intent = getIntent();
-        String uId = intent.getStringExtra("Mike");
+        String uId = intent.getStringExtra("user");
         Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
         Firebase mikeRef = ref.child("users").child(uId).child("trip");
         mikeRef.setValue(BuildFireBase.getTrips());
@@ -85,18 +102,21 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frag_container, feedFragment);
+                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                        // toolbar.setTitle("Feed");
                         break;
                     case 1:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frag_container, addTripFrag);
+                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                         //toolbar.setTitle("Add a Trip!");
                         break;
                     case 2:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frag_container, contactsFrag);
+                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                        // toolbar.setTitle("Following");
                         break;

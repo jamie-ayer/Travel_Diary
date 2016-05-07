@@ -1,5 +1,6 @@
 package example.michaelmuccio.com.travel_diary.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,11 @@ public class FeedFragment extends Fragment {
     RecyclerView recyclerView;
     UsersListAdapter usersListAdapter;
     ArrayList<Trip> tripsList;
+    private String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     @Nullable
     @Override
@@ -44,9 +50,9 @@ public class FeedFragment extends Fragment {
         return v;
     }
 
-    private static void retrieveFirebaseData(){
+    private void retrieveFirebaseData(){
         // Get a reference to our posts
-        Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/users/facebook%3A10102387362009255/");
+        Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/users/" + user);
         Query queryRef = ref.orderByChild("trips");
 
 //        queryRef.addChildEventListener(new ChildEventListener() {

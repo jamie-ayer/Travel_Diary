@@ -1,5 +1,6 @@
 package example.michaelmuccio.com.travel_diary.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +20,6 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
-import example.michaelmuccio.com.travel_diary.BuildFireBaseManager.BuildFireBase;
 import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
@@ -32,6 +32,7 @@ public class AddTripFrag extends Fragment {
     EditText descriptionview;
     Spinner addTripOrEvent;
     FloatingActionButton fab;
+    private String user;
 
     @Nullable
     @Override
@@ -39,7 +40,7 @@ public class AddTripFrag extends Fragment {
         View v = inflater.inflate(R.layout.add_event_layout, container, false);
         setViews(v);
         spinnerInit(v);
-        fabButtunOnClickListener();
+        fabButtonOnClickListener();
 
         return v;
     }
@@ -71,12 +72,14 @@ public class AddTripFrag extends Fragment {
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
     }
 
-    private void fabButtunOnClickListener(){
+    private void fabButtonOnClickListener(){
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
-                Firebase userRef = ref.child("users").child("trip");
+                Firebase userRef = ref.child("users").child(user).child("trip");
                 Trip addTrip = new Trip();
                 addTrip.setTitle(titleView.getText().toString());
 //                Firebase alanRef = usersRef.child("alanisawesome");
@@ -104,6 +107,11 @@ public class AddTripFrag extends Fragment {
             }
         });
 
+
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
 }
