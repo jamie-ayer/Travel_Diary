@@ -43,7 +43,7 @@ public class FeedFragment extends Fragment {
         setRetainInstance(true);
         setViews(v);
 
-        retrieveFirebaseData();
+        //retrieveFirebaseData();
         usersListAdapter = new UsersListAdapter(tripsList);
 
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class AddTripFrag extends Fragment {
     Spinner addTripOrEvent;
     FloatingActionButton fab;
     private String user;
+    private String TAG = "Add Trip Frag";
 
     @Nullable
     @Override
@@ -41,6 +43,8 @@ public class AddTripFrag extends Fragment {
         setViews(v);
         spinnerInit(v);
         fabButtonOnClickListener();
+
+        Log.i(TAG, "User Auth ID: " + user);
 
         return v;
     }
@@ -76,12 +80,12 @@ public class AddTripFrag extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
                 Firebase userRef = ref.child("users").child(user).child("trip");
                 Trip addTrip = new Trip();
-                addTrip.setTitle(titleView.getText().toString());
+                String userInput = titleView.getText().toString();
+                addTrip.setTitle(userInput);
+                addTrip.setPic(R.drawable.mamas);
 //                Firebase alanRef = usersRef.child("alanisawesome");
 //                Map<String, Object> nickname = new HashMap<String, Object>();
 //                nickname.put("nickname", "Alan The Machine");

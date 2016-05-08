@@ -1,13 +1,9 @@
 package example.michaelmuccio.com.travel_diary.BuildFireBaseManager;
 
-import android.content.Context;
-
-import java.util.ArrayList;
-
 import example.michaelmuccio.com.travel_diary.Models.Event;
 import example.michaelmuccio.com.travel_diary.Models.Friend;
 import example.michaelmuccio.com.travel_diary.Models.Trip;
-import example.michaelmuccio.com.travel_diary.Models.Users;
+import example.michaelmuccio.com.travel_diary.Models.User;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
@@ -15,15 +11,15 @@ import example.michaelmuccio.com.travel_diary.R;
  */
 public class BuildFireBase {
 
-    public static Users getUser(String fbId){
-        Users users = new Users();
-        users.setFacebookId(fbId);
-        users.setDisplayName("Me");
-        users.setProvider("Provider");
-        users.setFriends(getFriends());
-        users.setTrips(getTrips());
+    public static User getUser(String fbId){
+        User user = new User();
+        user.setFacebookId(fbId);
+        user.setDisplayName("Me");
+        user.setProvider("Provider");
+        user.setFriends(getFriends());
+        user.setTrips(getTrips());
 
-        return users;
+        return user;
     }
 
     private static Event[] getEventsObjects() {
