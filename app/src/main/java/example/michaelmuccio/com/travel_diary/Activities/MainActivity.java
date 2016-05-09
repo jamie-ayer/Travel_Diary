@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initViews(savedInstanceState);
+        //TODO setRetainInstance(true);
         setSupportActionBar(toolbar);
         bottomNavInit();
         getLogInIntent();
@@ -54,18 +55,40 @@ public class MainActivity extends AppCompatActivity {
         //firebaseSetup();
     }
 
+    private void initViews(Bundle savedInstanceState){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.frag_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            FeedFragment firstFragment = new FeedFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frag_container, firstFragment).commit();
+        }
+    }
+
     private void getLogInIntent(){
         Intent intent = getIntent();
         String uId = intent.getStringExtra(LogInActivity.USER_ID_TAG);
         Log.i(TAG, uId);
-        AddTripFrag addTripFrag = new AddTripFrag();
-        addTripFrag.setUser(uId);
-
-        FeedFragment feedFragment = new FeedFragment();
         feedFragment.setUser(uId);
-
-        ContactsFrag contactsFrag = new ContactsFrag();
         contactsFrag.setUser(uId);
+        addTripFrag.setUser(uId);
     }
 
     public void firebaseSetup(){
@@ -95,11 +118,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setAccentColor(R.color.colorAccent);
         bottomNavigation.setInactiveColor(R.color.colorPrimaryDark);
         bottomNavigation.setColored(true);
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container,feedFragment);
-        fragmentTransaction.commit();
     }
 
     public void navBarListener() {
@@ -174,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.sign_out:
+            LogInActivity logInActivity = new LogInActivity();
+                logInActivity.logout();
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
                 return true;

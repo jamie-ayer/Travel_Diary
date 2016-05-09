@@ -1,6 +1,5 @@
 package example.michaelmuccio.com.travel_diary.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -25,16 +24,16 @@ import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
- * Created by michaelmuccio on 4/30/16.
+ * Created by michaelmuccio on 5/8/16.
  */
-public class AddTripFrag extends Fragment {
+public class AddEventFrag extends Fragment {
     EditText titleView;
     EditText locationView;
     EditText descriptionview;
     Spinner addTripOrEvent;
     FloatingActionButton fab;
     private String user;
-    private static final String TAG = "Add Trip Frag";
+    private static final String TAG = "Add Event Frag";
 
     @Nullable
     @Override
@@ -47,7 +46,7 @@ public class AddTripFrag extends Fragment {
 
         return v;
     }
-
+    
     private void setViews(View v){
         titleView = (EditText) v.findViewById(R.id.add_title);
         locationView = (EditText) v.findViewById(R.id.add_location);
@@ -97,5 +96,4 @@ public class AddTripFrag extends Fragment {
     public void setUser(String user) {
         this.user = user;
     }
-
 }

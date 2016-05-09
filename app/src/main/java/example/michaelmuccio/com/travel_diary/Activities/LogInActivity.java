@@ -99,7 +99,7 @@ public class LogInActivity extends AppCompatActivity {
     /**
      * Unauthenticate from Firebase and from providers where necessary.
      */
-    private void logout() {
+    public void logout() {
         if (this.mAuthData != null) {
             /* logout of Firebase */
             mFirebaseRef.unauth();
