@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Travel Diary</string>
     <string name="facebook_app_id">1751321791806259</string>
+    <string name="sign_out_options_menu">Sign Out</string>
     <string-array name="trip_or_event_array">
         <item>Start a Trip</item>
         <item>Add to Existing Trip</item>
