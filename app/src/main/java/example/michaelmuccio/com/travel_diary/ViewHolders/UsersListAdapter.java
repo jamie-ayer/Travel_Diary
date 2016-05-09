@@ -1,4 +1,4 @@
-package example.michaelmuccio.com.travel_diary.Adapters;
+package example.michaelmuccio.com.travel_diary.ViewHolders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +37,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     public class UsersListViewHolder extends RecyclerView.ViewHolder{
         TextView tripTitle;
         TextView timeStamp;
-        TextView tripBlurp;
+        TextView tripSummary;
         ImageView tripIcon;
 
         public UsersListViewHolder(final View itemView){
@@ -45,16 +45,16 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
 
             tripTitle = (TextView) itemView.findViewById(R.id.user_title);
             timeStamp = (TextView) itemView.findViewById(R.id.time_stamp);
-            tripBlurp = (TextView) itemView.findViewById(R.id.trip_info_cardview);
+            tripSummary = (TextView) itemView.findViewById(R.id.trip_info_cardview);
             tripIcon = (ImageView) itemView.findViewById(R.id.users_latest_travel_pic);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null)
-                        listener.onItemClick(itemView, getLayoutPosition());
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (listener != null)
+//                        listener.onItemClick(itemView, getLayoutPosition());
+//                }
+//            });
         }
     }
 
@@ -62,7 +62,7 @@ public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.User
     public UsersListAdapter.UsersListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.users_info_view_for_adapter, parent, false);
+        View view = inflater.inflate(R.layout.trips_by_users, parent, false);
         UsersListViewHolder vh = new UsersListViewHolder(view);
 
         return vh;

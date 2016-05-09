@@ -17,4 +17,11 @@
         android:layout_gravity="center_horizontal"
         android:text="login_with_facebook" />
 
+    <TextView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textAlignment="center"
+        android:id="@+id/logged_in_as"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

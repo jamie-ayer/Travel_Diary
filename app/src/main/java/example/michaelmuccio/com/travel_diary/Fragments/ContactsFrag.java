@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
-import example.michaelmuccio.com.travel_diary.Adapters.ContactsAdapter;
+import example.michaelmuccio.com.travel_diary.ViewHolders.ContactsAdapter;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**

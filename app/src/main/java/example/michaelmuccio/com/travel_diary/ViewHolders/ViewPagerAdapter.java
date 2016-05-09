@@ -1,4 +1,4 @@
-package example.michaelmuccio.com.travel_diary.Adapters;
+package example.michaelmuccio.com.travel_diary.ViewHolders;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

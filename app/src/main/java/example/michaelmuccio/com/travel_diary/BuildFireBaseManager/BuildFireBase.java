@@ -17,7 +17,7 @@ public class BuildFireBase {
         user.setDisplayName("Me");
         user.setProvider("Provider");
         user.setFriends(getFriends());
-        user.setTrips(getTrips());
+        user.setTrip(getTrips());
 
         return user;
     }

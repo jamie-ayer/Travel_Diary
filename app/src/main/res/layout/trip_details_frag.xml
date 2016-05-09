@@ -3,25 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:id="@+id/add_title"
-        android:hint="add a title"
+    <ImageView
+        android:src="@drawable/mamas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="250dp"
+        android:id="@+id/imageView"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/trip_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:id="@+id/add_location"
-        android:hint="add a Location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:id="@+id/add_details"
-        android:hint="add a Description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

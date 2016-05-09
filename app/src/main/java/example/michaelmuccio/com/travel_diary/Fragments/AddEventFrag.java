@@ -1,6 +1,5 @@
 package example.michaelmuccio.com.travel_diary.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -21,19 +20,20 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
+import example.michaelmuccio.com.travel_diary.Models.Event;
 import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
 /**
- * Created by michaelmuccio on 4/30/16.
+ * Created by michaelmuccio on 5/8/16.
  */
-public class AddTripFrag extends Fragment {
+public class AddEventFrag extends Fragment {
     EditText titleView;
     EditText locationView;
     EditText descriptionview;
     FloatingActionButton fab;
     private String user;
-    private static final String TAG = "Add Trip Frag";
+    private static final String TAG = "Add Event Frag";
 
     @Nullable
     @Override
@@ -41,6 +41,7 @@ public class AddTripFrag extends Fragment {
         View v = inflater.inflate(R.layout.add_event_layout, container, false);
         setViews(v);
         fabButtonOnClickListener();
+
         Log.i(TAG, "User Auth ID: " + user);
 
         return v;
@@ -58,20 +59,18 @@ public class AddTripFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
-                Firebase userRef = ref.child("users").child(user).child("trip");
-                Trip addTrip = new Trip();
-                String userTitle = titleView.getText().toString();
-                String userDescription = descriptionview.getText().toString();
-                addTrip.setDescription(userDescription);
-                addTrip.setTitle(userTitle);
-                addTrip.setPic(R.drawable.mamas);
+                Firebase userRef = ref.child("users").child(user).child("trip").getRef();
+                Event addEvent = new Event();
+                String userInput = titleView.getText().toString();
+                addEvent.setTitle(userInput);
+                addEvent.setPic(R.drawable.mamas);
                 Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
 
-                Map<String, Object> newTrip = new HashMap<>();
-                newTrip.put("title", addTrip.getTitle());
-                newTrip.put("pic", addTrip.getPic());
-                newTrip.put("description", addTrip.getDescription());
-                userRef.push().setValue(addTrip);
+                Map<String, Object> newEvent = new HashMap<>();
+                newEvent.put("title", addEvent.getTitle());
+                newEvent.put("pic", addEvent.getPic());
+                newEvent.put("description", addEvent.getDetails());
+                userRef.push().setValue(newEvent);
 
                 ref.setValue("I'm writing data", new Firebase.CompletionListener() {
                     @Override
@@ -94,5 +93,4 @@ public class AddTripFrag extends Fragment {
     public void setUser(String user) {
         this.user = user;
     }
-
 }

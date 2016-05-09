@@ -37,12 +37,13 @@ public class LogInActivity extends AppCompatActivity {
     private AccessTokenTracker mFacebookAccessTokenTracker;
     private static final String TAG = LogInActivity.class.getSimpleName();
     public static final String USER_ID_TAG = "user";
+    private TextView mLoggedInStatusTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-
+        mLoggedInStatusTextView = (TextView) findViewById(R.id.logged_in_as);
         setFacebookManager();
         mFirebaseRef = new Firebase("https://glowing-torch-6078.firebaseio.com");
         setauthProgressDialog();
@@ -99,7 +100,7 @@ public class LogInActivity extends AppCompatActivity {
     /**
      * Unauthenticate from Firebase and from providers where necessary.
      */
-    private void logout() {
+    public void logout() {
         if (this.mAuthData != null) {
             /* logout of Firebase */
             mFirebaseRef.unauth();
@@ -122,6 +123,7 @@ public class LogInActivity extends AppCompatActivity {
             /* Hide all the login buttons */
             mFacebookLoginButton.setVisibility(View.GONE);
             String  name = (String) authData.getProviderData().get("displayName");
+            mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
             //TODO set toolbar to name
             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
             intent.putExtra(USER_ID_TAG, authData.getUid());
@@ -160,12 +162,12 @@ public class LogInActivity extends AppCompatActivity {
             mAuthProgressDialog.hide();
             Log.i(TAG, provider + " auth successful");
             setAuthenticatedUser(authData);
-//            Map<String, String> map = new HashMap<String, String>();
-//            map.put("provider", authData.getProvider());
-//            if(authData.getProviderData().containsKey("displayName")) {
-//                map.put("displayName", authData.getProviderData().get("displayName").toString());
-//            }
-//            mFirebaseRef.child("users").child(authData.getUid());
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("provider", authData.getProvider());
+            if(authData.getProviderData().containsKey("displayName")) {
+                map.put("displayName", authData.getProviderData().get("displayName").toString());
+            }
+            mFirebaseRef.child("users").child(authData.getUid()).setValue(map);
             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
             intent.putExtra(USER_ID_TAG, authData.getUid());
             startActivity(intent);

@@ -1,15 +1,19 @@
 package example.michaelmuccio.com.travel_diary.Activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -39,64 +43,49 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initViews(savedInstanceState);
+        //TODO setRetainInstance(true);
         setSupportActionBar(toolbar);
-        bottomNavInit();
+        bottomNavSetup();
         getLogInIntent();
-
         navBarListener();
         //firebaseSetup();
+    }
 
+    private void initViews(Bundle savedInstanceState){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+
+        if (findViewById(R.id.frag_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+        }
     }
 
     private void getLogInIntent(){
         Intent intent = getIntent();
         String uId = intent.getStringExtra(LogInActivity.USER_ID_TAG);
         Log.i(TAG, uId);
-        AddTripFrag addTripFrag = new AddTripFrag();
-        addTripFrag.setUser(uId);
-
-        FeedFragment feedFragment = new FeedFragment();
         feedFragment.setUser(uId);
-
-        ContactsFrag contactsFrag = new ContactsFrag();
         contactsFrag.setUser(uId);
+        addTripFrag.setUser(uId);
     }
 
     public void firebaseSetup(){
         Intent intent = getIntent();
         String uId = intent.getStringExtra("user");
         Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
-        Firebase mikeRef = ref.child("users").child(uId).child("trip");
+        Firebase mikeRef = ref.child("users").child(uId);
         mikeRef.setValue(BuildFireBase.getTrips());
 
     }
 
-    public void bottomNavInit() {
-//        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-//        final PagerAdapter adapter = new PagerAdapter
-//                (getSupportFragmentManager(), );
-//        viewPager.setAdapter(adapter);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                viewPager.setCurrentItem(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-
+    public void bottomNavSetup() {
         item1 = new AHBottomNavigationItem("Home", R.drawable.ic_home_black_24dp);
         item2 = new AHBottomNavigationItem("Add Trip", R.drawable.ic_adjust_black_24dp);
         item3 = new AHBottomNavigationItem("Following", R.drawable.ic_person_black_24dp);
@@ -104,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
-        bottomNavigation.setCurrentItem(1);
 
         item1.setColor(R.color.colorPrimary);
         item2.setColor(R.color.colorPrimary);
@@ -112,11 +100,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setAccentColor(R.color.colorAccent);
         bottomNavigation.setInactiveColor(R.color.colorPrimaryDark);
         bottomNavigation.setColored(true);
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container,feedFragment);
-        fragmentTransaction.commit();
     }
 
     public void navBarListener() {
@@ -153,6 +136,57 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
 
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(MainActivity.this, "Searching for " + query, Toast.LENGTH_SHORT).show();
+        } else {
+            LogInActivity logInActivity = new LogInActivity();
+            logInActivity.logout();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        handleIntent(getIntent());
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.sign_out:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 }
 
