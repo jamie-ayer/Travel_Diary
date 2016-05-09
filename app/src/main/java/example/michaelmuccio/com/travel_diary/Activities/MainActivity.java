@@ -3,11 +3,8 @@ package example.michaelmuccio.com.travel_diary.Activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -49,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         initViews(savedInstanceState);
         //TODO setRetainInstance(true);
         setSupportActionBar(toolbar);
-        bottomNavInit();
+        bottomNavSetup();
         getLogInIntent();
         navBarListener();
         //firebaseSetup();
@@ -57,9 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews(Bundle savedInstanceState){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
         if (findViewById(R.id.frag_container) != null) {
 
             // However, if we're being restored from a previous state,
@@ -68,17 +64,6 @@ public class MainActivity extends AppCompatActivity {
             if (savedInstanceState != null) {
                 return;
             }
-
-            // Create a new Fragment to be placed in the activity layout
-            FeedFragment firstFragment = new FeedFragment();
-
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            firstFragment.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frag_container, firstFragment).commit();
         }
     }
 
@@ -95,14 +80,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String uId = intent.getStringExtra("user");
         Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
-        Firebase mikeRef = ref.child("users").child(uId).child("trip");
+        Firebase mikeRef = ref.child("users").child(uId);
         mikeRef.setValue(BuildFireBase.getTrips());
 
     }
 
-    public void bottomNavInit() {
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-
+    public void bottomNavSetup() {
         item1 = new AHBottomNavigationItem("Home", R.drawable.ic_home_black_24dp);
         item2 = new AHBottomNavigationItem("Add Trip", R.drawable.ic_adjust_black_24dp);
         item3 = new AHBottomNavigationItem("Following", R.drawable.ic_person_black_24dp);
@@ -110,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
-        bottomNavigation.setCurrentItem(1);
 
         item1.setColor(R.color.colorPrimary);
         item2.setColor(R.color.colorPrimary);
@@ -164,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Toast.makeText(MainActivity.this, "Searching for " + query, Toast.LENGTH_SHORT).show();
+        } else {
+            LogInActivity logInActivity = new LogInActivity();
+            logInActivity.logout();
         }
     }
 
@@ -192,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.sign_out:
-            LogInActivity logInActivity = new LogInActivity();
-                logInActivity.logout();
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
                 return true;

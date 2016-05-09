@@ -6,9 +6,27 @@ package example.michaelmuccio.com.travel_diary.Models;
 public class Trip {
     Event[] events;
     String title;
+    String description;
+    String location;
     int pic;
 
     public Trip() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Event[] getEvents() {

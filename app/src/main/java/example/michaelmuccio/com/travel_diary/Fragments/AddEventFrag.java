@@ -20,6 +20,7 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
+import example.michaelmuccio.com.travel_diary.Models.Event;
 import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
@@ -30,7 +31,6 @@ public class AddEventFrag extends Fragment {
     EditText titleView;
     EditText locationView;
     EditText descriptionview;
-    Spinner addTripOrEvent;
     FloatingActionButton fab;
     private String user;
     private static final String TAG = "Add Event Frag";
@@ -46,7 +46,7 @@ public class AddEventFrag extends Fragment {
 
         return v;
     }
-    
+
     private void setViews(View v){
         titleView = (EditText) v.findViewById(R.id.add_title);
         locationView = (EditText) v.findViewById(R.id.add_location);
@@ -59,11 +59,11 @@ public class AddEventFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
-                Firebase userRef = ref.child("users").child(user).child("trip");
-                Trip addTrip = new Trip();
+                Firebase userRef = ref.child("users").child(user).child("trip").getRef();
+                Event addEvent = new Event();
                 String userInput = titleView.getText().toString();
-                addTrip.setTitle(userInput);
-                addTrip.setPic(R.drawable.mamas);
+                addEvent.setTitle(userInput);
+                addEvent.setPic(R.drawable.mamas);
                 Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
 //                Firebase alanRef = usersRef.child("alanisawesome");
 //                Map<String, Object> nickname = new HashMap<String, Object>();
@@ -71,8 +71,8 @@ public class AddEventFrag extends Fragment {
 //                alanRef.updateChildren(nickname);
 
                 Map<String, Object> newTrip = new HashMap<>();
-                newTrip.put("title", addTrip.getTitle());
-                newTrip.put("pic", addTrip.getPic());
+                newTrip.put("title", addEvent.getTitle());
+                newTrip.put("pic", addEvent.getPic());
                 userRef.updateChildren(newTrip);
 
                 ref.setValue("I'm writing data", new Firebase.CompletionListener() {

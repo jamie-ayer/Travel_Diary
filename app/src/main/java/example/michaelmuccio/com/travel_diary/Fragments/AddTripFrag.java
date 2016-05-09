@@ -31,7 +31,6 @@ public class AddTripFrag extends Fragment {
     EditText titleView;
     EditText locationView;
     EditText descriptionview;
-    Spinner addTripOrEvent;
     FloatingActionButton fab;
     private String user;
     private static final String TAG = "Add Trip Frag";
@@ -42,7 +41,6 @@ public class AddTripFrag extends Fragment {
         View v = inflater.inflate(R.layout.add_event_layout, container, false);
         setViews(v);
         fabButtonOnClickListener();
-
         Log.i(TAG, "User Auth ID: " + user);
 
         return v;
@@ -62,8 +60,10 @@ public class AddTripFrag extends Fragment {
                 Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/");
                 Firebase userRef = ref.child("users").child(user).child("trip");
                 Trip addTrip = new Trip();
-                String userInput = titleView.getText().toString();
-                addTrip.setTitle(userInput);
+                String userTitle = titleView.getText().toString();
+                String userDescription = descriptionview.getText().toString();
+                addTrip.setDescription(userDescription);
+                addTrip.setTitle(userTitle);
                 addTrip.setPic(R.drawable.mamas);
                 Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
 //                Firebase alanRef = usersRef.child("alanisawesome");
@@ -74,7 +74,8 @@ public class AddTripFrag extends Fragment {
                 Map<String, Object> newTrip = new HashMap<>();
                 newTrip.put("title", addTrip.getTitle());
                 newTrip.put("pic", addTrip.getPic());
-                userRef.updateChildren(newTrip);
+                newTrip.put("description", addTrip.getDescription());
+                userRef.push().setValue(addTrip);
 
                 ref.setValue("I'm writing data", new Firebase.CompletionListener() {
                     @Override

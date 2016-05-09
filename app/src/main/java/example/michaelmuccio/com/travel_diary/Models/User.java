@@ -6,7 +6,7 @@ package example.michaelmuccio.com.travel_diary.Models;
 public class User {
     String facebookId;
     Friend[] friends;
-    Trip[] trips;
+    Trip[] trip;
     String provider;
     String displayName;
 
@@ -18,12 +18,12 @@ public class User {
         this.friends = friends;
     }
 
-    public Trip[] getTrips() {
-        return trips;
+    public Trip[] getTrip() {
+        return trip;
     }
 
-    public void setTrips(Trip[] trips) {
-        this.trips = trips;
+    public void setTrip(Trip[] trip) {
+        this.trip = trip;
     }
 
     public String getProvider() {
