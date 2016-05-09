@@ -66,10 +66,6 @@ public class AddTripFrag extends Fragment {
                 addTrip.setTitle(userTitle);
                 addTrip.setPic(R.drawable.mamas);
                 Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-//                Firebase alanRef = usersRef.child("alanisawesome");
-//                Map<String, Object> nickname = new HashMap<String, Object>();
-//                nickname.put("nickname", "Alan The Machine");
-//                alanRef.updateChildren(nickname);
 
                 Map<String, Object> newTrip = new HashMap<>();
                 newTrip.put("title", addTrip.getTitle());

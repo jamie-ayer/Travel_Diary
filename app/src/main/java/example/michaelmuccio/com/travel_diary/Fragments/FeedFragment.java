@@ -31,8 +31,6 @@ public class FeedFragment extends Fragment {
     RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Trip, FeedViewHolder> mAdapter;
     private Query mRef;
-    UsersListAdapter usersListAdapter;
-    ArrayList<Trip> tripsList;
     private String user;
 
     @Nullable
@@ -45,10 +43,18 @@ public class FeedFragment extends Fragment {
         //Firebase.setAndroidContext(getContext());
         mAdapter = new FirebaseRecyclerAdapter<Trip, FeedViewHolder>(Trip.class, R.layout.trips_by_users, FeedViewHolder.class, mRef) {
             @Override
-            public void populateViewHolder(FeedViewHolder holder, Trip trip, int position) {
+            public void populateViewHolder(FeedViewHolder holder, Trip trip, final int position) {
                 holder.setTripTitle(trip.getTitle());
                 holder.setTripSummary(trip.getEvents()[position].getDetails());
                 holder.setTripIcon(R.drawable.mamas);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mAdapter.getItem(position);
+                    }
+                });
+
             }
         };
         recyclerView.setAdapter(mAdapter);
@@ -61,16 +67,6 @@ public class FeedFragment extends Fragment {
         // Get a reference to our posts
         Firebase ref = new Firebase("https://glowing-torch-6078.firebaseio.com/users/" + user);
         mRef = ref.child("trip");
-
-//        mRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot snapshot, String previousChild) {
-//                Trip trip = snapshot.getValue(Trip.class);
-//                trip.getTitle();
-//                trip.getPic();
-//            }
-//            // ....
-//        });
     }
 
     public void setUser(String user) {

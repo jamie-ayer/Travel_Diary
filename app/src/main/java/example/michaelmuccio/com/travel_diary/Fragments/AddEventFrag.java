@@ -65,15 +65,12 @@ public class AddEventFrag extends Fragment {
                 addEvent.setTitle(userInput);
                 addEvent.setPic(R.drawable.mamas);
                 Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
-//                Firebase alanRef = usersRef.child("alanisawesome");
-//                Map<String, Object> nickname = new HashMap<String, Object>();
-//                nickname.put("nickname", "Alan The Machine");
-//                alanRef.updateChildren(nickname);
 
-                Map<String, Object> newTrip = new HashMap<>();
-                newTrip.put("title", addEvent.getTitle());
-                newTrip.put("pic", addEvent.getPic());
-                userRef.updateChildren(newTrip);
+                Map<String, Object> newEvent = new HashMap<>();
+                newEvent.put("title", addEvent.getTitle());
+                newEvent.put("pic", addEvent.getPic());
+                newEvent.put("description", addEvent.getDetails());
+                userRef.push().setValue(newEvent);
 
                 ref.setValue("I'm writing data", new Firebase.CompletionListener() {
                     @Override
