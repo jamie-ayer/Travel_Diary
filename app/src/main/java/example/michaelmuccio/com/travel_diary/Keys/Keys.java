@@ -1,4 +1,4 @@
-package example.michaelmuccio.com.travel_diary;
+package example.michaelmuccio.com.travel_diary.Keys;
 
 /**
  * Created by michaelmuccio on 5/4/16.

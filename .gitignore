@@ -2,6 +2,7 @@
 ### Gradle template
 .gradle
 build/
+app/src/main/java/example/michaelmuccio/com/travel_diary/Keys
 
 # Ignore Gradle GUI config
 gradle-app.setting
