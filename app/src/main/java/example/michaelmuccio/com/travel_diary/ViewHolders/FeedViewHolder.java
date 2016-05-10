@@ -24,14 +24,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder{
         timeStamp = (TextView) itemView.findViewById(R.id.time_stamp);
         tripSummary = (TextView) itemView.findViewById(R.id.trip_info_cardview);
         tripIcon = (ImageView) itemView.findViewById(R.id.users_latest_travel_pic);
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listener != null)
-//                        listener.onItemClick(itemView, getLayoutPosition());
-//                }
-//            });
+        
     }
 
     public void setTripTitle(String title) {

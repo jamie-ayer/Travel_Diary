@@ -9,7 +9,7 @@
         android:layout_height="250dp"
         android:id="@+id/imageView"/>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/trip_listview"
+        android:id="@+id/trip_recycleview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

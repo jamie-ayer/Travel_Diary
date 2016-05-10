@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +19,12 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.squareup.otto.Bus;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import example.michaelmuccio.com.travel_diary.Bus.BusProvider;
 import example.michaelmuccio.com.travel_diary.Models.Trip;
 import example.michaelmuccio.com.travel_diary.R;
 
@@ -33,7 +37,11 @@ public class AddTripFrag extends Fragment {
     EditText descriptionview;
     FloatingActionButton fab;
     private String user;
+    private Bus mBus = BusProvider.getBusInstance();
     private static final String TAG = "Add Trip Frag";
+    public FeedFragment feedFragment =  new FeedFragment();
+    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
 
     @Nullable
     @Override
@@ -65,13 +73,16 @@ public class AddTripFrag extends Fragment {
                 addTrip.setDescription(userDescription);
                 addTrip.setTitle(userTitle);
                 addTrip.setPic(R.drawable.mamas);
-                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
 
                 Map<String, Object> newTrip = new HashMap<>();
                 newTrip.put("title", addTrip.getTitle());
                 newTrip.put("pic", addTrip.getPic());
                 newTrip.put("description", addTrip.getDescription());
                 userRef.push().setValue(addTrip);
+
+                Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
+                getFragmentManager().beginTransaction().replace(R.id.frag_container, feedFragment)
+                        .addToBackStack(null).commit();
 
                 ref.setValue("I'm writing data", new Firebase.CompletionListener() {
                     @Override
