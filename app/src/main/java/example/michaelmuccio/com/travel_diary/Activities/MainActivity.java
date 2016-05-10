@@ -18,8 +18,12 @@ import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.firebase.client.Firebase;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import com.squareup.otto.ThreadEnforcer;
 
 import example.michaelmuccio.com.travel_diary.BuildFireBaseManager.BuildFireBase;
+import example.michaelmuccio.com.travel_diary.Bus.BusProvider;
 import example.michaelmuccio.com.travel_diary.Fragments.AddTripFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.ContactsFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.FeedFragment;
@@ -34,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
     AHBottomNavigationItem item3;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
-    AddTripFrag addTripFrag = new AddTripFrag();
-    ContactsFrag contactsFrag = new ContactsFrag();
-    FeedFragment feedFragment =  new FeedFragment();
+    private Bus mBus = BusProvider.getBusInstance();
+    public AddTripFrag addTripFrag = new AddTripFrag();
+    public ContactsFrag contactsFrag = new ContactsFrag();
+    public FeedFragment feedFragment =  new FeedFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +53,14 @@ public class MainActivity extends AppCompatActivity {
         bottomNavSetup();
         getLogInIntent();
         navBarListener();
+        mBus.register(this);
         //firebaseSetup();
+
     }
 
-    private void initViews(Bundle savedInstanceState){
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-
-        if (findViewById(R.id.frag_container) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-        }
+    @Subscribe
+    public void getMessage(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
     private void getLogInIntent(){
@@ -106,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, boolean wasSelected) {
-                // Do something cool here..
                 fragmentManager =  getSupportFragmentManager();
 
                 switch (position) {
@@ -164,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
+
         handleIntent(getIntent());
 
         return true;
@@ -186,6 +182,27 @@ public class MainActivity extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    private void initViews(Bundle savedInstanceState){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+
+        if (findViewById(R.id.frag_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frag_container, feedFragment);
+            fragmentTransaction.commit();
+            toolbar.setTitle("Feed");
         }
     }
 }

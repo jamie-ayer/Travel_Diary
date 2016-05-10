@@ -8,13 +8,23 @@ public class Trip {
     String title;
     String description;
     String location;
+    String ref;
     int pic;
 
-    public Trip() {
+    public Trip(String ref) {
+        this.ref = ref;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
     public void setDescription(String description) {

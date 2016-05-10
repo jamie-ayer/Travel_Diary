@@ -1,22 +1,31 @@
 package example.michaelmuccio.com.travel_diary.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 
+import example.michaelmuccio.com.travel_diary.Activities.MainActivity;
+import example.michaelmuccio.com.travel_diary.Bus.BusProvider;
+import example.michaelmuccio.com.travel_diary.ClickListener.RecyclerTouchListener;
+import example.michaelmuccio.com.travel_diary.Interfaces.ClickListener;
 import example.michaelmuccio.com.travel_diary.Models.User;
 import example.michaelmuccio.com.travel_diary.ViewHolders.FeedViewHolder;
 import example.michaelmuccio.com.travel_diary.ViewHolders.UsersListAdapter;
@@ -28,10 +37,16 @@ import example.michaelmuccio.com.travel_diary.R;
  */
 public class FeedFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Trip, FeedViewHolder> mAdapter;
     private Query mRef;
     private String user;
+    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
+    private String tripId;
+    private Bus mBus = BusProvider.getBusInstance();
+    public static final String TAG_FEED_FRAG = "Feed Frag";
+
 
     @Nullable
     @Override
@@ -40,27 +55,34 @@ public class FeedFragment extends Fragment {
         setRetainInstance(true);
         setViews(v);
         initFirebase();
-        //Firebase.setAndroidContext(getContext());
         mAdapter = new FirebaseRecyclerAdapter<Trip, FeedViewHolder>(Trip.class, R.layout.trips_by_users, FeedViewHolder.class, mRef) {
             @Override
             public void populateViewHolder(FeedViewHolder holder, Trip trip, final int position) {
                 holder.setTripTitle(trip.getTitle());
-                holder.setTripSummary(trip.getEvents()[position].getDetails());
+                holder.setTripSummary(trip.getDescription());
                 holder.setTripIcon(R.drawable.mamas);
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mAdapter.getItem(position);
-                    }
-                });
-
             }
         };
         recyclerView.setAdapter(mAdapter);
-
-
+        recyclerViewListener();
         return v;
+    }
+
+    private void recyclerViewListener(){
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                tripId = mAdapter.getRef(position).getKey();
+                mBus.post(new Trip(tripId));
+                Toast.makeText(getContext(), "You clicked on: " + tripId, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     private void initFirebase(){
