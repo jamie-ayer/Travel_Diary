@@ -4,12 +4,12 @@ package example.michaelmuccio.com.travel_diary.Models;
  * Created by michaelmuccio on 5/5/16.
  */
 public class Trip {
-    Event[] events;
-    String title;
-    String description;
-    String location;
-    String ref;
-    int pic;
+    private Event[] events;
+    private String title;
+    private String description;
+    private String location;
+    private String ref;
+    private int pic;
 
 //    public Trip(String ref) {
 //        this.ref = ref;

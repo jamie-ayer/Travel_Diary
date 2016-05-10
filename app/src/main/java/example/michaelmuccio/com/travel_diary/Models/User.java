@@ -4,11 +4,11 @@ package example.michaelmuccio.com.travel_diary.Models;
  * Created by michaelmuccio on 5/5/16.
  */
 public class User {
-    String facebookId;
-    Friend[] friends;
-    Trip[] trip;
-    String provider;
-    String displayName;
+    private String facebookId;
+    private Friend[] friends;
+    private Trip[] trip;
+    private String provider;
+    private String displayName;
 
     public Friend[] getFriends() {
         return friends;
