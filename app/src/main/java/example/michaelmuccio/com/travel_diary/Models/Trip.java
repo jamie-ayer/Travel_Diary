@@ -11,9 +11,9 @@ public class Trip {
     String ref;
     int pic;
 
-    public Trip(String ref) {
-        this.ref = ref;
-    }
+//    public Trip(String ref) {
+//        this.ref = ref;
+//    }
 
     public String getDescription() {
         return description;

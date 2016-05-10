@@ -1,5 +1,6 @@
 package example.michaelmuccio.com.travel_diary.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -39,6 +41,7 @@ public class FeedFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Trip, FeedViewHolder> mAdapter;
+    //private OnTripSelectedListener mlistener;
     private Query mRef;
     private String user;
     private FragmentTransaction fragmentTransaction;
@@ -47,6 +50,19 @@ public class FeedFragment extends Fragment {
     private Bus mBus = BusProvider.getBusInstance();
     public static final String TAG_FEED_FRAG = "Feed Frag";
 
+//    public interface OnTripSelectedListener {
+//        public void onTripSelected(String selectedTrip);
+//    }
+//
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        try {
+//           mlistener = (OnTripSelectedListener) getActivity();
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(getActivity().toString() + " must implement OnTripSelectedListener");
+//        }
+//    }
 
     @Nullable
     @Override
@@ -74,7 +90,14 @@ public class FeedFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 tripId = mAdapter.getRef(position).getKey();
-                mBus.post(new Trip(tripId));
+                TripDetailsFrag ldf = new TripDetailsFrag();
+                Bundle args = new Bundle();
+                args.putString(TAG_FEED_FRAG, tripId);
+                ldf.setArguments(args);
+
+                getFragmentManager().beginTransaction().replace(R.id.frag_container, ldf)
+                        .addToBackStack(null).commit();
+
                 Toast.makeText(getContext(), "You clicked on: " + tripId, Toast.LENGTH_SHORT).show();
             }
 

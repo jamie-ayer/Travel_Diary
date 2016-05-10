@@ -27,6 +27,8 @@ import example.michaelmuccio.com.travel_diary.Bus.BusProvider;
 import example.michaelmuccio.com.travel_diary.Fragments.AddTripFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.ContactsFrag;
 import example.michaelmuccio.com.travel_diary.Fragments.FeedFragment;
+import example.michaelmuccio.com.travel_diary.Fragments.TripDetailsFrag;
+import example.michaelmuccio.com.travel_diary.Interfaces.Delagates;
 import example.michaelmuccio.com.travel_diary.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public AddTripFrag addTripFrag = new AddTripFrag();
     public ContactsFrag contactsFrag = new ContactsFrag();
     public FeedFragment feedFragment =  new FeedFragment();
+    private TripDetailsFrag tripDetailsFrag = new TripDetailsFrag();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,5 +208,7 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setTitle("Feed");
         }
     }
+
+
 }
 

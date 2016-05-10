@@ -21,9 +21,11 @@ public class Delagates {
 
     @Subscribe
     public void getTripId(Trip trip) {
-
+        //trip.setRef();
     }
 
-    @Subscribe void getTripDetails()
+    @Subscribe void getTripDetails(){
+
+    }
 
 }
